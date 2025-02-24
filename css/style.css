@@ -103,11 +103,37 @@ main {
     min-height: 3em;
 }
 
+/* 가격 컨테이너 수정 */
+.price-container {
+    margin: 1rem 0;
+    text-align: center;
+}
+
 .product-price {
     font-size: 1.5rem;
     color: var(--primary-color);
     font-weight: 700;
-    margin: 1rem 0;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.product-original-price {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: var(--gray-600);
+    font-weight: 500;
+    text-decoration: line-through;
+    margin-bottom: 2px;
+}
+
+/* 가격 노트를 위한 새로운 클래스 추가 */
+.price-note {
+    display: inline-block;
+    font-size: 0.9rem;  /* 기존 1.2rem에서 작게 조정 */
+    color: var(--gray-600);
+    font-weight: 500;
+    text-decoration: line-through;
+    margin-bottom: 2px;
 }
 
 .product-buttons {
