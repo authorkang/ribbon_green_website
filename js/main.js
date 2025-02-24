@@ -68,6 +68,7 @@ const products = [
         id: 1,
         name: "CNP Hyaluronic Derma Tension Cream 50ml",
         price: 19.25,
+        originalPrice: 27.50,
         description: "Soothing Gel Cream for Moisturizing\n[for all skin types]",
         images: [
             "img/card1_fig1.jpg",  // 확장자 추가
@@ -105,6 +106,7 @@ const products = [
         id: 2,
         name: "CNP Aqua Soothing Fresh Gel Cream 80ml",
         price: 18.50,
+        priceNote: "HARD TO FIND ELSEWHERE",  // 새로운 속성 추가
         description: "Soothing Gel Cream for Moisturizing\n[for all skin types]",
         images: [
             "img/card2_fig1.jpg",  // 첫 번째 이미지
@@ -164,7 +166,17 @@ class CartManager {
                 </div>
                 <h3>${product.name}</h3>
                 <p>${product.description.replace('\n', '<br>')}</p>
-                <p class="product-price">€${product.price.toFixed(2)}</p>
+                <div class="price-container">
+                    <p class="product-price">
+                        ${product.originalPrice ? 
+                            `<span class="product-original-price">€${product.originalPrice.toFixed(2)}</span><br>` : 
+                            product.priceNote ? 
+                                `<span class="price-note">${product.priceNote}</span><br>` : 
+                                ''
+                        }
+                        €${product.price.toFixed(2)}
+                    </p>
+                </div>
                 <div class="product-buttons">
                     <button class="primary-button" onclick="showProductDetail(${product.id}, this)">
                         View Details
