@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ribbon Green - K-Beauty Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 모바일 최적화를 위한 추가 스타일 -->
+    <style>
+        /* 모바일 화면에서 컨테이너 너비 조정 */
+        @media screen and (max-width: 768px) {
+            /* 기존 스타일 유지 */
+            .logo {
+                max-width: 100%;  /* 최대 너비를 100%로 변경 */
+                min-width: unset;  /* 최소 너비 제거 */
+                width: 100%;      /* 너비를 100%로 설정 */
+                height: auto;
+                margin-bottom: 1rem;
+                padding: 0;       /* 패딩 제거 */
+            }
+
+            header {
+                padding: 1rem 0;  /* 헤더의 좌우 패딩 제거 */
+            }
+
+            /* 기존 스타일 유지 */
+            .products-container,
+            .cart-container,
+            .order-form {
+                width: 100%;
+                max-width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            /* 모달 배경 스타일 수정 */
+            .modal-background {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                overflow-y: auto;
+            }
+
+            /* 모달 컨테이너 스타일 수정 */
+            .modal-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: white;
+                z-index: 1001;
+                overflow-y: auto;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            /* 모달 내부 컨텐츠 스타일 */
+            .product-detail-content {
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+                padding: 15px;
+                box-sizing: border-box;
+            }
+
+            /* 모달 닫기 버튼 스타일 */
+            .modal-close {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                z-index: 1002;
+                padding: 10px;
+                background: white;
+                border: none;
+                border-radius: 50%;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+            /* 기존 스타일 유지 */
+            input, textarea {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            body {
+                overflow-x: hidden;
+                width: 100%;
+                position: relative;
+            }
+
+            .subtitle span {
+                display: block;  /* 각 span을 블록 레벨로 변경하여 줄바꿈 */
+                line-height: 1.4;  /* 줄 간격 설정 */
+                margin: 3px 0;  /* 상하 여백 살짝 줄임 */
+                font-size: 0.9em;  /* 글자 크기 */
+            }
+            
+            /* 첫 번째 span 아래 여백 추가 */
+            .subtitle span:first-child {
+                margin-bottom: 5px;
+            }
+        }
+
+        /* 모바일 화면 대응 (550px 이하) */
+        @media screen and (max-width: 550px) {
+            .logo {
+                max-width: 100%;
+                min-width: unset;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            header {
+                padding: 1rem 0;
+            }
+
+            .modal-container {
+                width: 100%;
+                min-width: 100%;
+                padding: 10px;
+                left: 0;
+                margin: 0;
+            }
+
+            .product-detail-content {
+                width: 100%;
+                min-width: 100%;
+                padding: 10px;
+                margin: 0;
+            }
+
+            /* 상세페이지 내부 요소들도 반응형으로 조정 */
+            .product-detail-content img,
+            .product-detail-content div,
+            .product-detail-content p {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* 텍스트 크기 조정 */
+            .product-detail-content h2 {
+                font-size: 1.5em;
+                margin: 10px 0;
+            }
+
+            .product-detail-content p {
+                font-size: 1em;
+                line-height: 1.4;
+            }
+
+            .price-notice {
+                margin: 1.5rem 0.3rem;  /* 상하 1.5rem, 좌우 0.3rem으로 수정 */
+                padding: 1.5rem 1rem;
+            }
+
+            .subtitle span {
+                font-size: 0.85em;  /* 더 작은 화면에서는 더 작게 */
+            }
+        }
+
+        /* Specific Item Information 스타일 수정 */
+        .specific-info-button {
+            /* 기존 버튼 스타일에서 색상만 수정 */
+            background-color: #f5f5f5;  /* 연한 회색 배경 */
+            border: none;
+            color: #333;  /* 검은색 글씨 */
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* 호버 효과 추가 */
+        .specific-info-button:hover {
+            background-color: #e8e8e8;  /* 호버시 약간 더 진한 회색 */
+        }
+
+        /* 세부 내용 스타일 수정 */
+        .specific-info-content {
+            text-align: left;  /* 모든 내용 좌측 정렬 */
+        }
+
+        .specific-info-content .detail-section {
+            margin-bottom: 0;           /* 하단 여백 제거 */
+            padding-bottom: 12px;       /* 대신 패딩으로 간격 조정 */
+            padding-top: 12px;          /* 상단 패딩 추가 */
+            padding: 0 1rem;            /* 좌우 패딩 */
+            border-bottom: 1px solid #eee;  /* 구분선 추가 */
+        }
+
+        .specific-info-content .detail-section:first-child {
+            padding-top: 0;             /* 첫 번째 섹션은 상단 패딩 제거 */
+        }
+
+        .specific-info-content .detail-section:last-of-type {
+            border-bottom: none;        /* 마지막 섹션은 구분선 제거 */
+        }
+
+        .specific-info-content h4 {
+            font-size: 0.85em;  /* 제목 크기를 더 작게 수정 */
+            color: #4CAF50;    /* 초록색 유지 */
+            margin-bottom: 4px;
+            font-weight: normal;  /* 글씨 두께를 보통으로 설정 */
+        }
+
+        .specific-info-content p {
+            font-size: 0.85em;
+            line-height: 1.4;
+            margin: 0;
+            color: #666;
+        }
+
+        @media screen and (max-width: 550px) {
+            .specific-info-content h4 {
+                font-size: 0.8em;  /* 모바일에서는 더 작게 */
+            }
+            
+            .specific-info-content p {
+                font-size: 0.8em;
+            }
+        }
+
+        /* 이미지 슬라이더 스타일 */
+        .product-image-slider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .slider-container img {
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .slider-button.prev {
+            left: 10px;
+        }
+
+        .slider-button.next {
+            right: 10px;
+        }
+
+        @media screen and (max-width: 550px) {
+            .specific-info-button {
+                font-size: 0.85em;  /* 모바일에서 더 작게 */
+            }
+        }
+
+        /* Close 버튼 스타일 */
+        .close-info-button {
+            background-color: #f5f5f5;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;           /* 버튼 위 여백 추가 */
+        }
+
+        .close-info-button:hover {
+            background-color: #e8e8e8;
+        }
+
+        /* 상세 페이지 내용 좌측 정렬 */
+        .product-detail-content {
+            text-align: left;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        .product-detail-content h2,
+        .product-detail-content h3,
+        .product-detail-content p,
+        .product-detail-content div,
+        .product-detail-content ul,
+        .product-detail-content li {
+            text-align: left;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        /* 특징 목록 좌측 정렬 */
+        .features-list {
+            text-align: left;
+            padding-left: 20px;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        .features-list li {
+            text-align: left;
+            margin-bottom: 5px;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        /* 가격 알림 (검은 박스) 스타일 수정 */
+        .price-notice {
+            text-align: left;
+            font-size: 1em;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        .price-notice .notice-content {
+            font-size: 1em;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        .notice-content p {
+            font-size: 0.93em;
+            line-height: 1.5;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        .notice-content span {
+            display: block;
+            text-align: center;
+            font-size: 1em;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        .notice-content .market-link {
+            font-size: 0.93em;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        /* 모바일 화면에서의 글자 크기도 조정 */
+        @media screen and (max-width: 550px) {
+            .price-notice,
+            .price-notice .notice-content,
+            .notice-content p,
+            .notice-content span,
+            .notice-content .market-link {
+                font-size: 0.88em;  /* 0.95em에서 0.88em으로 조정 */
+            }
+        }
+
+        /* 패키지 옵션 좌측 정렬 */
+        .package-options {
+            text-align: left;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        .package-option {
+            text-align: left;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        /* 사용법 좌측 정렬 */
+        .usage-section {
+            text-align: left;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        /* 성분 정보 좌측 정렬 */
+        .ingredients-section {
+            text-align: left;
+            word-break: break-word;  /* 단어 잘림 허용 */
+        }
+
+        /* 버튼만 중앙 정렬 유지 */
+        .product-detail-content button {
+            display: block;
+            margin: 10px auto;
+        }
+
+        /* 가격 알림 (검은 박스) 내부 버튼 스타일 수정 */
+        .price-notice button,
+        .notice-content button {
+            text-align: center;  /* 버튼 내부 텍스트 가운데 정렬 */
+            width: 100%;        /* 버튼 너비 100%로 설정 */
+            display: block;     /* 블록 레벨 요소로 설정 */
+            margin: 10px auto;  /* 상하 여백 추가 및 가운데 정렬 */
+        }
+
+        /* 버튼 내부의 모든 텍스트 요소도 가운데 정렬 */
+        .price-notice button *,
+        .notice-content button * {
+            text-align: center;
+            word-break: normal;  /* 버튼 내 텍스트는 단어 잘림 방지 */
+        }
+
+        /* 제품 설명 텍스트 스타일 통일 */
+        .product-description {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #333;
+            margin: 8px 0;
+            padding: 0;  /* 패딩 제거 */
+            word-break: break-word;
+            text-align: left;
+        }
+
+        /* 모바일에서의 제품 설명 텍스트 스타일 */
+        @media screen and (max-width: 550px) {
+            .product-description {
+                font-size: 0.85em;
+                line-height: 1.4;
+                margin: 6px 0;
+            }
+            
+            /* 연속된 product-description 클래스 간의 간격 조정 */
+            .product-description + .product-description {
+                margin-top: 6px;    /* 문단 간격도 축소 */
+            }
+        }
+
+        /* 기존 subtitle 스타일 수정 */
+        .subtitle {
+            text-align: center;
+            margin: 10px 0;
+            display: flex;  /* flexbox 사용 */
+            flex-direction: row;  /* 기본적으로 가로 방향 */
+            justify-content: center;  /* 가운데 정렬 */
+            flex-wrap: nowrap;  /* 기본적으로 줄바꿈 없음 */
+            gap: 5px;  /* span 사이 간격 */
+        }
+
+        .subtitle span {
+            display: inline;
+        }
+
+        /* 모바일 화면에서 subtitle 줄바꿈 처리 */
+        @media screen and (max-width: 768px) {
+            .subtitle {
+                flex-direction: column;  /* 세로 방향으로 변경 */
+                align-items: center;  /* 가운데 정렬 유지 */
+                gap: 2px;  /* span 사이 간격 축소 */
+            }
+
+            .subtitle span {
+                font-size: 0.9em;
+                line-height: 1.2;  /* 줄 간격 축소 */
+                margin: 1px 0;  /* 상하 여백 축소 */
+            }
+        }
+
+        /* 더 작은 모바일 화면 대응 */
+        @media screen and (max-width: 550px) {
+            .subtitle span {
+                font-size: 0.85em;
+            }
+        }
+
+        /* detail-section 스타일 수정 */
+        .detail-section {
+            margin-bottom: 0;           /* 하단 여백 제거 */
+            padding-bottom: 12px;       /* 대신 패딩으로 간격 조정 */
+            padding-top: 12px;          /* 상단 패딩 추가 */
+            padding: 0 1rem;            /* 좌우 패딩 */
+            border-bottom: 1px solid #eee;  /* 구분선 추가 */
+        }
+
+        /* product-description 패딩 제거 (이미 detail-section에 패딩이 있으므로) */
+        .product-description {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #333;
+            margin: 8px 0;
+            padding: 0;  /* 패딩 제거 */
+            word-break: break-word;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <video class="video-background" autoplay muted loop playsinline>
+            <source src="img/video.mp4" type="video/mp4">
+        </video>
+        <div class="header-content">
+            <a href="index.html" class="logo-link">
+                <img src="img/logo.png" alt="RIBBON GREEN" class="logo">
+            </a>
+            <div class="subtitle">
+                <span>Iconic Korean Skincare</span>
+                <span>Now in Europe</span>
+            </div>
+        </div>
+    </header>
+    <nav class="nav-container">
+        <ul class="nav-menu">
+            <li class="menu-icon-container">
+                <button class="menu-icon-button">☰</button>
+            </li>
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">TOP 5</a>
+            </li>
+            <li class="nav-item">
+                <a href="all-products.html" class="nav-link">All Products</a>
+            </li>
+            <li class="nav-item">
+                <a href="events.html" class="nav-link active">Events</a>
+            </li>
+            <li class="nav-item">
+                <a href="about.html" class="nav-link">About Us</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 슬라이드 메뉴 추가 -->
+    <div class="slide-menu">
+        <ul class="slide-menu-list">
+            <li><a href="index.html">TOP 5</a></li>
+            <li><a href="all-products.html">All Products</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <div class="events-container">
+            <h2>Current Events</h2>
+            <p class="no-events">There are no ongoing events at the moment.</p>
+            <p class="check-back">Please check back later for new promotions and special offers!</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Ribbon Green. All rights reserved.</p>
+    </footer>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("pwTsrztEEK2Zlybf2");
+        })();
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

@@ -650,8 +650,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Order Now 버튼 클릭 시 주문 폼 표시
-document.getElementById('order-button').addEventListener('click', function() {
+// Order Now 버튼 클릭 이벤트 수정
+document.getElementById('order-button').addEventListener('click', () => {
     const cartItems = document.getElementById('cart-items');
     const orderForm = document.getElementById('order-form');
     const orderSummary = document.querySelector('.order-summary');
@@ -668,7 +668,29 @@ document.getElementById('order-button').addEventListener('click', function() {
     // 주문 내역 업데이트
     orderSummary.innerHTML = `${cartItemsHTML}<br>Total: €${totalAmount}`;
 
-    // 주문 폼 표시
-    orderForm.classList.remove('hidden');
-    cartItems.parentElement.classList.add('hidden');
+    // 주문 폼이 숨겨져 있으면 보이게 함
+    if (orderForm.classList.contains('hidden')) {
+        orderForm.classList.remove('hidden');
+    }
+
+    // 주문 폼이 보이도록 스크롤
+    orderForm.scrollIntoView({ behavior: 'smooth' });
+});
+
+// 햄버거 메뉴 클릭 이벤트
+document.addEventListener('DOMContentLoaded', () => {
+    const menuButton = document.querySelector('.menu-icon-button');
+    const slideMenu = document.querySelector('.slide-menu');
+    
+    menuButton.addEventListener('click', (e) => {
+        e.stopPropagation();  // 이벤트 전파 중지
+        slideMenu.classList.toggle('active');
+    });
+
+    // 슬라이드 메뉴 외부 클릭 시 닫기
+    document.addEventListener('click', (e) => {
+        if (!slideMenu.contains(e.target) && !menuButton.contains(e.target)) {
+            slideMenu.classList.remove('active');
+        }
+    });
 }); 

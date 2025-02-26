@@ -26,34 +26,73 @@ body {
 
 /* 헤더 스타일 */
 header {
-    background-color: white;
-    padding: 2rem var(--container-padding);
+    background-color: transparent;
+    padding: 4rem 0 0;
     text-align: center;
-    box-shadow: var(--shadow-sm);
-    margin-bottom: 2rem;
+    box-shadow: none;
+    margin-bottom: 0;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 50vh;
+    min-height: 500px;
 }
 
+/* 비디오 배경 스타일 */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;  /* header의 높이에 맞춤 */
+    z-index: -1;
+    object-fit: cover;
+    opacity: 0.2;
+}
+
+/* 로고와 서브타이틀을 포함하는 컨테이너 수정 */
+.header-content {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+    padding: 1rem var(--container-padding) 3rem;  /* 하단 패딩을 3rem으로 증가 */
+    display: block;
+    width: 100%;
+}
+
+/* 로고 스타일 수정 */
 .logo {
-    max-width: 400px;
-    min-width: 250px;
-    width: 80%;
+    max-width: 600px;
+    min-width: 300px;
+    width: 90%;
     height: auto;
-    margin-bottom: 1rem;
+    margin-bottom: -2rem;  /* 음수값으로 설정하여 아래 부분이 잘리도록 */
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
+/* 서브타이틀 스타일 수정 */
 .subtitle {
-    color: #999999;
+    color: #333333;
     font-size: clamp(1rem, 3vw, 1.1rem);
     letter-spacing: 0.2em;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    margin-top: 0.5rem;
+    margin-top: 0;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    line-height: 1.3;
+}
+
+.subtitle span {
+    display: block;
+    margin: 0.1rem 0;
 }
 
 /* 메인 컨테이너 */
 main {
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 3rem auto 0;  /* 상단 마진 추가 */
     padding: 0 var(--container-padding);
     display: grid;
     grid-template-columns: minmax(0, 3fr) minmax(300px, 1fr);
@@ -373,13 +412,13 @@ main {
 
 /* 주문 폼 스타일 */
 .order-form {
-    grid-column: 1 / -1;
-    background-color: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    width: 699.87px;
-    margin: 2rem 0;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.order-form.hidden {
+    display: none;
 }
 
 .form-group {
@@ -484,6 +523,7 @@ footer {
 
 @media (max-width: 768px) {
     main {
+        margin-top: 2rem;  /* 모바일에서는 간격 축소 */
         grid-template-columns: 1fr;
         padding: 0 1rem;
     }
@@ -526,6 +566,33 @@ footer {
         font-size: 1.1rem;
         margin-bottom: 1rem;
     }
+
+    .logo {
+        max-width: 100%;
+        min-width: unset;
+        width: 85%;
+        margin-bottom: 0.2rem;  /* 모바일에서는 잘리지 않도록 */
+    }
+
+    .subtitle span {
+        margin: 0.1rem 0;
+        line-height: 1.2;
+    }
+
+    .header-content {
+        padding: 2rem var(--container-padding);  /* 0.8rem에서 2rem으로 증가 */
+    }
+
+    header {
+        padding: 12rem 0 0;
+        height: 38vh;
+        min-height: 350px;
+    }
+
+    .video-background {
+        height: 100%;
+        object-position: center 5%;
+    }
 }
 
 @media (max-width: 576px) {
@@ -534,13 +601,17 @@ footer {
     }
 
     header {
-        padding: 1.2rem var(--container-padding);
+        padding: 11rem 0 0;
+        height: 5vh;  /* 크게 축소 */
+        min-height: 50px;  /* 크게 축소 */
+    }
+
+    .header-content {
+        padding: 1.8rem var(--container-padding);  /* 0.6rem에서 1.8rem으로 증가 */
     }
 
     .logo {
-        min-width: 200px;
-        width: 70%;
-        max-width: 300px;
+        width: 90%;  /* 모바일에서도 동일한 비율 유지 */
     }
 
     .product-card {
@@ -627,7 +698,7 @@ footer {
     }
 
     .product-detail-content {
-        padding: 0.6rem;
+        padding: 1.5rem var(--container-padding);  /* 새로 추가 */
     }
 
     .price-notice {
@@ -661,6 +732,12 @@ footer {
     .package-add-btn {
         padding: 0.3rem 0.6rem;
         font-size: 0.85rem;
+    }
+
+    header {
+        padding: 10rem 0 0;
+        height: 4vh;  /* 더 축소 */
+        min-height: 40px;  /* 더 축소 */
     }
 }
 
@@ -968,6 +1045,7 @@ footer {
 
 @media (max-width: 550px) {
     main {
+        margin-top: 1.5rem;  /* 더 작은 화면에서는 더 축소 */
         grid-template-columns: 1fr;
         padding: 0 1rem;
     }
@@ -1142,42 +1220,60 @@ footer {
 
 /* 모바일 화면 대응 */
 @media screen and (max-width: 768px) {
+    .nav-container {
+        padding: 0.1rem 0;
+    }
+
     header {
-        padding: 2.5rem 0;
+        padding: 12rem 0 0;
+        height: 38vh;
+        min-height: 350px;
+    }
+
+    .header-content {
+        padding: 2rem var(--container-padding);
     }
 
     .logo {
         max-width: 100%;
         min-width: unset;
         width: 85%;
-        height: auto;
-        margin: 0 auto 1.5rem;
-        padding: 0 0.5rem;
+        margin-bottom: 0.2rem;  /* 모바일에서는 잘리지 않도록 */
+    }
+
+    .subtitle {
+        font-size: 0.9rem;  /* 글자 크기 축소 */
+        letter-spacing: 0.15em;  /* 자간 살짝 축소 */
+    }
+
+    .video-background {
+        height: 100%;
+        object-position: center 5%;
     }
 }
 
 @media screen and (max-width: 550px) {
     header {
-        padding: 2rem 0;
+        padding: 11rem 0 0;
+        height: 3vh;  /* 매우 작게 설정 */
+        min-height: 30px;  /* 매우 작게 설정 */
     }
 
-    .logo {
-        width: 90%;
-        margin: 0 auto 1.2rem;
-        padding: 0 0.2rem;
+    .video-background {
+        height: 100%;
+        object-position: center 5%;
     }
 
-    .notice-content p:first-line,
-    .notice-content p span[style*="color: #FFD700"] {
-        font-size: 1.6em;
-        line-height: 1.8;
+    .header-content {
+        padding: 3.5rem var(--container-padding);
     }
 }
 
 @media screen and (max-width: 400px) {
-    .notice-content p:first-line,
-    .notice-content p span[style*="color: #FFD700"] {
-        font-size: 1.4em;
+    header {
+        padding: 10rem 0 0;
+        height: 2vh;  /* 더 작게 설정 */
+        min-height: 20px;  /* 더 작게 설정 */
     }
 }
 
@@ -1377,4 +1473,380 @@ footer {
     color: #333;
     font-size: 1.2rem;
     line-height: 1.4;
+}
+
+/* 네비게이션 바 스타일 수정 */
+.nav-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 0.1rem 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: none;
+}
+
+.nav-menu {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* 웹에서는 4등분 */
+    list-style: none;
+    padding: 0.2rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow-x: auto;
+}
+
+/* Chrome/Safari 스크롤바 숨김 */
+.nav-menu::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-item {
+    position: relative;
+    display: flex;
+    justify-content: center;  /* 중앙 정렬 */
+    align-items: center;
+    width: 100%;
+}
+
+/* 첫번째와 마지막 메뉴 아이템의 라운드 제거 */
+.nav-item:first-child .nav-link {
+    border-radius: 0;
+}
+
+.nav-item:last-child .nav-link {
+    border-radius: 0;
+}
+
+.nav-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333333;
+    text-decoration: none;
+    padding: 0.4rem 0;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 0;
+    width: 100%;
+}
+
+/* 호버 효과를 위한 가상 요소 */
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgba(128, 128, 128, 0.1);  /* 투명도를 0.2에서 0.1로 변경 */
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
+.nav-link:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.nav-link:hover {
+    color: #333333;
+    transform: none;
+    background-color: transparent;
+}
+
+.nav-link.active {
+    color: var(--primary-color);  /* 활성 메뉴만 초록색으로 */
+    background-color: transparent;
+    font-weight: 600;
+    position: relative;
+}
+
+/* 밑줄 효과 제거 */
+.nav-link.active::after {
+    display: none;  /* 밑줄 제거 */
+}
+
+/* 모바일 반응형 수정 */
+@media screen and (max-width: 768px) {
+    .nav-container {
+        padding: 0.1rem 0;
+    }
+
+    .nav-menu {
+        grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;  /* 모바일에서는 5등분 */
+    }
+
+    .nav-link {
+        padding: 0.3rem 0;
+        white-space: nowrap;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .nav-container {
+        padding: 0.1rem 0;
+    }
+
+    .nav-menu {
+        padding: 0.2rem;
+    }
+
+    .nav-link {
+        padding: 0.4rem 1.5rem;  /* 1.2rem에서 1.5rem으로 증가 */
+        font-size: 0.85rem;
+    }
+}
+
+/* Events와 About 페이지 공통 스타일 */
+main:has(.events-container),
+main:has(.about-container) {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;  /* grid 레이아웃 제거 */
+}
+
+.events-container,
+.about-container {
+    max-width: 800px;
+    margin: 6rem auto 6rem;  /* 하단 여백 3rem에서 6rem으로 증가 */
+    padding: 0 var(--container-padding);
+}
+
+/* Events 페이지 스타일 */
+.events-container {
+    text-align: center;
+}
+
+.events-container h2 {
+    color: var(--primary-color);  /* 초록색으로 변경 */
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+/* About 페이지 스타일 */
+.about-container h2 {
+    color: var(--primary-color);
+    margin: 2.5rem 0 1.5rem;
+    font-size: 1.8rem;
+}
+
+.about-container h2:first-child {
+    margin-top: 0;
+}
+
+.about-container p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+/* 모바일 반응형 */
+@media screen and (max-width: 768px) {
+    .events-container,
+    .about-container {
+        margin: 4rem auto 4rem;
+        padding: 0 2rem;  /* 좌우 패딩 증가 */
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .events-container,
+    .about-container {
+        padding: 0 1.8rem;  /* 더 작은 화면에서도 여유있는 패딩 유지 */
+    }
+}
+
+/* 스크롤 가능 표시 애니메이션 */
+@keyframes pulseGradient {
+    0% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+    100% { opacity: 0.8; }
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) {
+    .nav-menu {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* 로고 링크 스타일 */
+.logo-link {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.logo-link:hover {
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+/* 메뉴 아이콘 스타일 */
+.menu-icon {
+    display: none;  /* 기본적으로 숨김 */
+    margin-right: 0.3rem;  /* 간격 축소 */
+    font-size: 1.1rem;  /* 크기 살짝 축소 */
+}
+
+/* 모바일에서 메뉴 아이콘 표시 */
+@media screen and (max-width: 768px) {
+    .menu-icon {
+        display: inline-block;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;  /* 아이콘과 텍스트 사이 간격 */
+    }
+}
+
+/* 슬라이드 메뉴 스타일 수정 */
+.slide-menu {
+    position: fixed;
+    top: -200px;  /* 초기에는 화면 위로 숨김 */
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    transition: top 0.3s ease;
+    z-index: 999;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: none;  /* 초기에는 숨김 */
+}
+
+.slide-menu.active {
+    top: 40px;  /* 네비게이션 바 아래로 위치 */
+    display: block;
+}
+
+.slide-menu-list {
+    list-style: none;
+    padding: 1.5rem 0;  /* 패딩 증가 */
+    margin: 0;
+}
+
+.slide-menu-list li {
+    padding: 0.8rem 2rem;  /* 패딩 증가 */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);  /* 구분선 추가 */
+}
+
+.slide-menu-list li:last-child {
+    border-bottom: none;  /* 마지막 항목의 구분선 제거 */
+}
+
+.slide-menu-list a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;  /* 글자 크기 증가 */
+    display: block;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+    font-weight: 500;  /* 글자 두께 증가 */
+}
+
+.slide-menu-list a:hover {
+    color: var(--primary-color);
+}
+
+/* 모바일 반응형 */
+@media screen and (max-width: 768px) {
+    .slide-menu.active {
+        top: 35px;  /* 모바일에서는 네비게이션 바 높이에 맞춤 */
+    }
+}
+
+/* 햄버거 메뉴 버튼 스타일 */
+.menu-icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    margin-right: 0.3rem;
+    font-size: 1.1rem;
+    display: none;  /* 기본적으로 숨김 */
+}
+
+/* 첫 번째 nav-item 스타일 수정 */
+.nav-item:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;  /* 0.3rem에서 0.5rem으로 증가 */
+    padding: 0 1rem;  /* 좌우 패딩 추가 */
+}
+
+/* 모바일에서 메뉴 아이콘 표시 */
+@media screen and (max-width: 768px) {
+    .menu-icon-button {
+        display: inline-block;
+    }
+
+    .nav-item:first-child {
+        justify-content: flex-start;
+        padding-left: 1rem;  /* 0.5rem에서 1rem으로 증가 */
+        padding-right: 1rem;
+    }
+}
+
+/* 햄버거 메뉴 버튼 컨테이너 스타일 */
+.menu-icon-container {
+    display: none;  /* 기본적으로 숨김 */
+}
+
+.menu-icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    font-size: 1.1rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모바일 반응형 수정 */
+@media screen and (max-width: 768px) {
+    .menu-icon-container {
+        display: flex;  /* 모바일에서만 보이게 */
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .nav-menu {
+        grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;  /* 모바일에서는 5등분 */
+    }
+}
+
+@media screen and (max-width: 550px) {
+    header {
+        padding: 11rem 0 0;
+        height: 55vh;
+        min-height: 450px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    header {
+        padding: 10rem 0 0;
+        height: 50vh;
+        min-height: 400px;
+    }
 }

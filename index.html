@@ -493,12 +493,48 @@
 </head>
 <body>
     <header>
-        <img src="img/logo.jpg" alt="RIBBON GREEN" class="logo">
-        <div class="subtitle">
-            <span>Iconic Korean Skincare</span>
-            <span>Now in Europe</span>
+        <video class="video-background" autoplay muted loop playsinline>
+            <source src="img/video.mp4" type="video/mp4">
+        </video>
+        <div class="header-content">
+            <a href="index.html" class="logo-link">
+                <img src="img/logo.png" alt="RIBBON GREEN" class="logo">
+            </a>
+            <div class="subtitle">
+                <span>Iconic Korean Skincare</span>
+                <span>Now in Europe</span>
+            </div>
         </div>
     </header>
+    <nav class="nav-container">
+        <ul class="nav-menu">
+            <li class="menu-icon-container">
+                <button class="menu-icon-button">☰</button>
+            </li>
+            <li class="nav-item">
+                <a href="index.html" class="nav-link active">TOP 5</a>
+            </li>
+            <li class="nav-item">
+                <a href="all-products.html" class="nav-link">All Products</a>
+            </li>
+            <li class="nav-item">
+                <a href="events.html" class="nav-link">Events</a>
+            </li>
+            <li class="nav-item">
+                <a href="about.html" class="nav-link">About Us</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 슬라이드 메뉴 추가 -->
+    <div class="slide-menu">
+        <ul class="slide-menu-list">
+            <li><a href="index.html">TOP 5</a></li>
+            <li><a href="all-products.html">All Products</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+    </div>
 
     <main>
         <section id="products" class="products-container">
